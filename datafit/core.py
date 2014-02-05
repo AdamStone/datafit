@@ -11,7 +11,7 @@ from optimize import find_fit
 # TODO account for non-symbolic (python function) model expressions
 
 def get_xy(csv_data, x_col, y_col, plot=False):
-    """ Given csv data, returns (x, y) tuples from the specified x and y columns
+    """ Given csv data, returns numpy arrays of the specified x and y columns
     (excluding the first row).
     """
     x = numpy.array([float(row[x_col]) for row in csv_data[1:] if row[y_col] != ''])
