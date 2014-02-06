@@ -7,7 +7,7 @@ itself is performed by a Levenberg-Marquardt algorithm via the
 scipy.optimize.leastsq function, and the main role of this code is
 to facilitate viewing and analysis of the fitting results, including
 
-    Standard deviations
+    Standard deviations of best-fit parameter values
     Sum of squares of residuals
     Parameter covariance matrix
     Parameter correlation matrix
@@ -43,7 +43,7 @@ interpretation of fitting results.
 
 In general, csv data is imported and the x and y columns selected using 
 the get_data and get_xy functions. The model expression is defined 
-symolically, using the sympy.symbols method to initialize the variables 
+symbolically, using the sympy.symbols method to initialize the variables 
 and fitting parameters, and passed to a Model object. The x and y 
 data are then passed to the find_fit method of the model along with a 
 dictionary of initial guess values. If the fit is successful, an instance
