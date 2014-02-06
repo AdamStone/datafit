@@ -1,23 +1,15 @@
 from __future__ import division
-import csv
 
-from datafit import get_xy, Model2D
+from datafit import get_data, get_xy, Model
 from sympy import symbols
     
     
 # Initialize data
-with open('data/Refractive Index vs Temperature.csv', 'rb') as csvfile:
-    raw_data = [row for row in csv.reader(csvfile, delimiter='\t')]
-    
+raw_data = get_data('data/case1/Refractive Index vs Temperature.csv', delimiter='\t')
 x, y = get_xy(raw_data, 0, 1, plot=False)
 
-    
-    
-    
-    
-    
-    
-    
+
+
 #####################################
 """ TRY FITTING WITH 1 OSCILLATOR """
 #####################################
@@ -29,7 +21,7 @@ X = symbols('X')
 osc1 = S1/(1 - L1**2/X**2)   # expression for 1 oscillator
 n = (osc1 + 1)**(1/2)        # Sellmeier eq. with 1 oscillator
 
-model1 = Model2D(n, name='Sellmeier (1 oscillator)')
+model1 = Model(n, name='Sellmeier (1 oscillator)')
 
 
 # Perform fit
@@ -44,14 +36,14 @@ if fit:
     fit.plot_residuals()
 
 #raw_input( 'Press return to continue...' )
-    
-    
-    
-    
-    
-    
-    
-    
+   
+
+
+
+
+
+
+
 ######################################
 """ TRY FITTING WITH 2 OSCILLATORS """
 ######################################
@@ -62,7 +54,7 @@ S2, L2 = symbols('S2, L2', domain='positive') # new parameters
 osc2 = S2/(1 - L2**2/X**2)     # new oscillator
 n = (osc1 + osc2 + 1)**(1/2)   # Sellmeier eq. with 2 oscillators
 
-model2 = Model2D(n, name='Sellmeier (2 oscillators)')
+model2 = Model(n, name='Sellmeier (2 oscillators)')
 
 
 # Perform fit
@@ -93,15 +85,15 @@ if fit2:
 # set up model
 S3, L3 = symbols('S3, L3', domain='positive') # new parameters
 
-osc3 = S3/(1 - L3**2/X**2)              # new oscillator
-n = (osc1 + osc2 + osc3 + 1)**(1/2)     # Sellmeier eq. with 3 oscillators
+osc3 = S3/(1 - L3**2/X**2)                    # new oscillator
+n = (osc1 + osc2 + osc3 + 1)**(1/2)           # Sellmeier eq. with 3 oscillators
 
-model3 = Model2D(n, name='Sellmeier (3 oscillators)')
+model3 = Model(n, name='Sellmeier (3 oscillators)')
 
 
 # Perform fit
 guess3 = fit2.results.copy()
-guess3.update({S3:1, L3:250}) # guess higher frequency oscillator
+guess3.update({S3:1, L3:250})   # guess higher frequency oscillator
 
 fit3 = model3.find_fit(x, y, guess3, partial_correlations=True)
 
@@ -125,12 +117,12 @@ if fit3:
 #####################################
 
 # set up model
-D = symbols('D', domain='positive') # new parameter
+D = symbols('D', domain='positive')      # new parameter
 
-oscIR = -D*X**2                     # IR oscillator approximation
-n = (osc1 + oscIR + osc3 + 1)**(1/2)     # Sellmeier eq. with 3 oscillators
+oscIR = -D*X**2                          # IR oscillator approximation
+n = (osc1 + oscIR + osc3 + 1)**(1/2)     # Sellmeier eq. with 2.5 oscillators
 
-model4 = Model2D(n, name='Sellmeier (2 oscillators + IR approximation)')
+model4 = Model(n, name='Sellmeier (2 oscillators + IR approximation)')
 
 
 # Perform fit
