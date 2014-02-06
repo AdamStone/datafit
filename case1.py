@@ -5,7 +5,7 @@ from sympy import symbols
     
     
 # Initialize data
-raw_data = get_data('data/case1/Refractive Index vs Temperature.csv', delimiter='\t')
+raw_data = get_data('data/case1/Refractive Index vs Temperature.csv', delimiter=',')
 x, y = get_xy(raw_data, 0, 1, plot=False)
 
 
